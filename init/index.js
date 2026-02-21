@@ -1,31 +1,32 @@
-const mongoose = require("mongoose")
-const initData = require("./data.js")
-const Listing = require("../models/listing.js")
+const mongoose = require("mongoose");
+const initData = require("./data.js");
+const Listing = require("../models/listing.js");
+require("dotenv").config({ path: "../.env" });
 
-const MongoUrl= 'mongodb://127.0.0.1:27017/shyama'
+const dbUrl = process.env.ATLASDB_URL;
 
-main()
-.then(()=>{
-    console.log("connected to DB shyama init");
-    
-}).catch((err)=>{
-    console.log(err);
-    
-})
+async function main() {
+    await mongoose.connect(dbUrl);
+    console.log("Connected to MongoDB Atlas");
 
-async function main(){
-    await mongoose.connect(MongoUrl)
-    
+    await initDB();
+
+    mongoose.connection.close();
 }
 
-const initDB = async() =>{
-    await Listing.deleteMany({})
-    initData.data= initData.data.map((obj)=>({...obj, owner:"6992673e1bafae74b4592a2f"}))
-    await Listing.insertMany(initData.data)
-    
-    console.log("data init");
-    
-    
-}
+const initDB = async () => {
+    await Listing.deleteMany({});
 
-initDB();
+    const ownerId = new mongoose.Types.ObjectId("6992673e1bafae74b4592a2f");
+
+    const updatedData = initData.data.map(obj => ({
+        ...obj,
+        owner: ownerId
+    }));
+
+    await Listing.insertMany(updatedData);
+
+    console.log("Database Seeded Successfully");
+};
+
+main().catch(err => console.log(err));
