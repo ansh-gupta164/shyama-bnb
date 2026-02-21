@@ -1,4 +1,4 @@
-# Shyama BnB 🏠
+# Nikunj 🏠
 
 A full-stack listing and review web application inspired by Airbnb.
 
