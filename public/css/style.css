@@ -1,24 +1,21 @@
-
-
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 
 body {
-    
-  
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
-
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     background-color: rgb(255, 255, 255) !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-.container{
+
+.container {
     flex: 1;
 
 }
-.add-btn{
-    background-color: red !important;
+
+.add-btn {
+    background-color: #fe424d !important;
     border: none !important;
 }
 
@@ -28,7 +25,7 @@ body {
 }
 
 .fa-globe {
-    color: red;
+    color: #fe424d;
     font-size: 2rem;
 }
 
@@ -38,47 +35,49 @@ body {
 
 
 /* footer  */
-
 .f-info-links,
 .f-info-socials,
 .f-info-brand {
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
+}
+/* copyright text */
+.f-info-brand {
+    font-size: 0.95rem;
 }
 
 .f-info-socials i {
-    font-size: 1.2rem;
-    margin-right: 1rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
 
 .f-info {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    text-align: center;
-    /* flex-direction: column; */
-    flex-wrap: wrap;
-    height: 8rem;
+    padding: 1.2rem 0;
     background-color: #d8e2dc;
+    gap: 0.6rem;
 }
 
 .f-info-links a {
     text-decoration: none;
-    color: #222222;
+    color: #222;
+    font-size: 0.95rem;
 }
 
 .f-info-links a:hover {
+
     text-decoration: underline;
-    color: #222222;
 }
 
-
 /* Cards */
-
 .listing-card {
     border: none !important;
     margin-bottom: 2rem;
@@ -99,26 +98,20 @@ body {
     color: black;
 }
 
-
-.listing-link{
+.listing-link {
     text-decoration: none;
 }
 
 /* card effect */
-
-.card-img-overlay{
+.card-img-overlay {
     opacity: 0;
 }
 
-.card-img-overlay:hover{
+.card-img-overlay:hover {
     opacity: 0.2;
     background-color: white;
 
 }
-
-
-
-
 
 .item {
     background-color: #d8e2dc;
@@ -126,14 +119,11 @@ body {
     font-weight: 600;
 }
 
-
-
-
 /* show page  */
-.show-img{
+.show-img {
     height: 30vh;
 }
 
-.show-btns{
+.show-btns {
     display: flex;
 }
