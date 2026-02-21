@@ -32,7 +32,7 @@
         </div>
 
         <!-- buttons -->
-        <% if(currUser && listing.owner._id.equals(currUser._id)){ %>
+            <% if (currUser && listing.owner && listing.owner._id.equals(currUser._id)) { %>
             <div class="show-btns mb-3">
                 <a href="/listings/<%= listing._id %>/edit" class="edit-btn btn btn-dark col-md-1 offset-3">Edit</a>
                 <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
