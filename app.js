@@ -29,7 +29,6 @@ const { date } = require("joi")
 const { serialize } = require("v8")
 
 
-require('dotenv').config() 
 
 const dbUrl = process.env.ATLASDB_URL
 

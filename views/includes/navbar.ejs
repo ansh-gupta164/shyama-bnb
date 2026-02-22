@@ -13,15 +13,16 @@
     margin-right: 0.5rem;
   }
 
-  .search-input {
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 1rem;
-  }
+ .search-input {
+  border-radius: 25px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  max-width: 300px;
+}
 </style>
 <!-- nav left  -->
 <nav class="navbar navbar-expand-md bg-body-light sticky-top border-bottom">
-  <div class="container-fluid">
+  <div class="container">
     <a class="navbar-brand" href=""><i class="fa-solid fa-globe"></i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
@@ -43,14 +44,13 @@
       <!-- nav right  -->
       <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Become a host</a>
-        <% if(!currUser){ %>
+
+        <% if(!locals.currUser){ %>
           <a class="nav-link" href="/signup"><b>Sign Up</b></a>
           <a class="nav-link" href="/login"><b>Log In</b></a>
-          <% } %>
-
-            <% if(currUser){ %>
-              <a class="nav-link" href="/logout"><b>Log Out</b></a>
-              <% } %>
+          <% } else { %>
+            <a class="nav-link" href="/logout"><b>Log Out</b></a>
+            <% } %>
       </div>
 
     </div>
