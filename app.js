@@ -4,6 +4,7 @@ if (process.env.NODE_ENV != "production") {
 }
 const express = require("express")
 const app = express()
+const port = process.env.PORT || 3000;
 const mongoose = require("mongoose")
 const Listing = require("./models/listing.js")
 const path = require("path")
@@ -136,12 +137,12 @@ app.use((req, res, next) => {
 
 // CUSTOM ERRRO HANDLER ++++++++++++++++++++++++++
 app.use((err, req, res, next) => {
-    let { statusCode = 500, message = "something went wrong " } = err
-    
-    res.status(statusCode).render("error.ejs", { message })
-})
+    console.log("FULL ERROR:", err); 
 
-const port = process.env.PORT || 3000;
+    let { statusCode = 500, message = "something went wrong" } = err;
+    res.status(statusCode).render("error.ejs", { message });
+});
+
 app.listen(port, () => {
     console.log(`server is listening at port ${port}`);
 });
