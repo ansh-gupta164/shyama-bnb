@@ -58,7 +58,7 @@ app.use(methodOverride("_method"));
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
-    crpto: {
+    crypto: {
         secret: process.env.SECRET,
     },
     touchAfter: 24 * 3600 // For lazy update.
