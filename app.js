@@ -64,8 +64,8 @@ const store = MongoStore.create({
     touchAfter: 24 * 3600 // For lazy update.
 })
 
-store.on("error", () => {
-    log("error in mongo store", err)
+store.on("error", (err) => {
+    console.log("error in mongo store", err)
 })
 
 // * session
@@ -141,7 +141,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error.ejs", { message })
 })
 
-app.listen(3000, () => {
-    console.log("server is listening at port 3000");
-
-})
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`server is listening at port ${port}`);
+});
