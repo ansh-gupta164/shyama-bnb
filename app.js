@@ -35,13 +35,13 @@ const dbUrl = process.env.ATLASDB_URL
 
 
 main()
-.then(() => {
-    console.log("connected to DB Nikunj");
-    
-}).catch((err) => {
-    console.log(err);
-    
-})
+    .then(() => {
+        console.log("connected to DB Nikunj");
+
+    }).catch((err) => {
+        console.log(err);
+
+    })
 
 async function main() {
     await mongoose.connect(dbUrl)
@@ -74,11 +74,14 @@ const sessionOption = {
     store,
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    rolling: true,
     cookie: {
         expire: Date.now() + 7 * 24 * 60 * 60 * 1000, //day * hr * min * sec * ms
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        httpOnly: true
+        httpOnly: true,
+
+        sameSite: "lax"
     }
 
 }
@@ -87,7 +90,7 @@ const sessionOption = {
 //* mw For session 
 app.use(session(sessionOption))
 // flash should come after session mw
-app.use(flash()) 
+app.use(flash())
 
 // use passport methods after session and flash 
 app.use(passport.initialize())
@@ -137,7 +140,7 @@ app.use((req, res, next) => {
 
 // CUSTOM ERRRO HANDLER ++++++++++++++++++++++++++
 app.use((err, req, res, next) => {
-    console.log("FULL ERROR:", err); 
+    console.log("FULL ERROR:", err);
 
     let { statusCode = 500, message = "something went wrong" } = err;
     res.status(statusCode).render("error.ejs", { message });

@@ -10,13 +10,27 @@ module.exports.isLoggedIn = (req, res, next) => {
             req.session.redirectUrl = req.originalUrl;
         }
 
-        console.log(req.user);
+        console.log("Auth:", req.isAuthenticated()); //
+        console.log("User:", req.user); //
 
         req.flash("error", "please log in")
         return res.redirect("/login")
     }
     next()
 }
+
+// module.exports.isLoggedIn = (req, res, next) => {
+//     if (!req.isAuthenticated()) {
+//         req.session.redirectUrl = req.originalUrl;   // save redirect here
+
+//         console.log("Saving redirect URL:", req.originalUrl);   // ADD THIS
+//         console.log("Session now:", req.session);               // ADD THIS
+
+//         req.flash("error", "Please log in first.");
+//         return res.redirect("/login");
+//     }
+//     next();
+// };
 
 module.exports.savedRedirectUrl = (req, res, next) => {
     if (req.session.redirectUrl) {

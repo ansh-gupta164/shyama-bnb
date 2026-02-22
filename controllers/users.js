@@ -21,11 +21,23 @@ module.exports.signup = async (req, res, next) => {
                 return next(err)
             }
             req.flash("success", "Welcome")
-            res.redirect("/listings")
+             req.session.save((err) => {
+    if (err) {
+        console.log("Session save error:", err);
+    }
+    
+    res.redirect("/listings")
+});
         })
     } catch (e) {
         req.flash("error", e.message)
-        res.redirect("/signup")
+         req.session.save((err) => {
+    if (err) {
+        console.log("Session save error:", err);
+    }
+    
+    res.redirect("/signup")
+});
     }
 
 }
@@ -36,14 +48,28 @@ module.exports.loginForm = (req, res) => {
 }
 
 //login
-module.exports.login = async (req, res) => {
-    req.flash("success", "welcome to Nikunj")
-    let redirectUrl = res.locals.redirectUrl || "/listings"
-    // console.log("Redirecting to:", redirectUrl);
+module.exports.login = (req, res) => {
 
-    res.redirect(redirectUrl)
+    console.log("Session inside login:", req.session);   // ADD THIS
 
-}
+    
+    let redirectUrl = res.locals.redirectUrl || "/listings";
+    req.flash("success", "Welcome to Nikunj");
+    
+    console.log("Redirecting to:", redirectUrl);         // ADD THIS
+
+    delete req.session.redirectUrl;
+
+ req.session.save((err) => {
+    if (err) {
+        console.log("Session save error:", err);
+    }
+    
+    res.redirect(redirectUrl);
+});
+};
+
+
 
 // logout
 module.exports.logout = (req, res) => {
@@ -52,7 +78,13 @@ module.exports.logout = (req, res) => {
             return next(err)
         }
         req.flash("success", "Log Out Successfully")
-        res.redirect("/listings")
+         req.session.save((err) => {
+    if (err) {
+        console.log("Session save error:", err);
+    }
+    
+    res.redirect("/listings")
+});
     })
 }
 

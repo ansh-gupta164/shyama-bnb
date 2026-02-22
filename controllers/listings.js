@@ -7,23 +7,29 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.createListing = async (req, res, next) => {
-    const newListing = new Listing(req.body.listing)
-    newListing.owner = req.user._id
-    let url = req.file.path
-
-    let filename = req.file.filenameF
+    const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
     console.log(req.user._id);
-    newListing.image = { url, filename }
-    let listing = await newListing.save()
 
-    if (typeof (req.file) != "undefined") {
-        url = req.file.path
-        filename = req.file.filename
-        listing.image = { url, filename }
-        await listing.save()
+    //  Safely check if a file was uploaded FIRST
+    if (typeof req.file !== "undefined") {
+        let url = req.file.path;
+        let filename = req.file.filename; // Fixed the typo here
+        newListing.image = { url, filename };
     }
-    req.flash("success", "new listing created")
-    res.redirect("/listings")
+
+    //  save the listing to the database just once
+    await newListing.save();
+
+    req.flash("success", "New listing created!");
+    
+    // save the session and redirect to the index page
+    req.session.save((err) => {
+        if (err) {
+            console.log("Session save error:", err);
+        }
+        res.redirect("/listings");
+    });
 }
 
 //new form
@@ -49,17 +55,40 @@ module.exports.showListings = async (req, res) => {
 }
 
 module.exports.updateListing = async (req, res) => {
-    console.log(req.body.listing.image);
-    let { id } = req.params
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing })
-    res.redirect(`/listings/${id}`)
+    let { id } = req.params;
+    
+    // Update text fields and grab the document
+    let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+
+    // If a new file was uploaded, update the image
+    if (typeof req.file !== "undefined") {
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = { url, filename }; 
+        await listing.save();
+    }
+
+    req.flash("success", "Listing updated successfully");
+    
+    req.session.save((err) => {
+        if (err) console.log("Session save error:", err);
+        res.redirect(`/listings/${id}`);
+    });
 }
 
 module.exports.destroyListing = async (req, res) => {
     let { id } = req.params
     let deletedListing = await Listing.findByIdAndDelete(id)
     console.log(deletedListing);
+
+    req.flash("success", "Listing deleted successfully")
+     req.session.save((err) => {
+    if (err) {
+        console.log("Session save error:", err);
+    }
+    
     res.redirect("/listings")
+});
 }
 
 module.exports.renderEditForm = async (req, res) => {
